@@ -8,9 +8,9 @@ data <- paste(root_dir,"/Data/Titanic.csv", sep = "")  #concacenate as string
 
 
 
-# reading csv
+# reading csv --------------------------------
 ds <- read.csv("Titanic.csv")
-ds #print this
+ds #print this not recommended
 summary(ds) # summary of ds
 
 tibble::view(ds) # view as a table
@@ -18,7 +18,7 @@ tibble::view(ds) # view as a table
 head(ds) 
 tail(ds)
 
-str(ds) # structure of a table
+str(ds) # structure of a table 
 
 dim (ds) #  get how many rows, column -> as a vector
 nrow(ds) # number of rows
@@ -36,7 +36,7 @@ levels(as.factor(ds$age))
 
 
 mean(ds$survived)
-sd(ds$age, na.rm == TRUE)
+sd(ds$age, na.rm <- TRUE)
 
 str(ds)
 
@@ -57,15 +57,30 @@ y <- x[!is.na(x)]
 # levels = like distinct , to see what are the different data
 levels(as.factor(ds$age)) 
 
-#residence
+#residence ----------------------------------
 str(ds$residence)
 levels(as.factor(ds$residence)) #[1] "0" "1" "2" -> actually a categorical data
 
-new_ds = ds
+new_ds <- ds
 new_ds$residence <- as.raw(new_ds$residence)
 new_ds$residence
 str(new_ds$residence)
 levels(as.factor(ds$residence))
 
-#summary
+#summary-------------------------
 summary(new_ds)
+str(new_ds)
+mean(new_ds$fare, na.rm = TRUE) # setting na.rm to TRUE will drop all NA valued rows
+
+survivor_count <- sum(new_ds$survived) #sum of people survived
+
+#death counts ---------------------
+death_count <- 0
+for (i in 1:nrow(new_ds)){
+    person_life <- new_ds$survived[i]
+    if(person_life == 0){
+        death_count <- death_count + 1
+    }
+}
+death_count
+
