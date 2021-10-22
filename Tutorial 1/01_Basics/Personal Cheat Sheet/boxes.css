@@ -1,0 +1,43 @@
+
+
+
+.bluebox {
+  padding: 1em;
+  background: lightblue;
+  color: black;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.yellowbox {
+  padding: 1em;
+  background: moccasin;
+  color: black;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.greenbox {
+  padding: 1em;
+  background: lightgreen;
+  color: black;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.left {
+  text-align: left;
+  text-indent: 75px
+}
+
+.center {
+  text-align: center;
+}
+
+
+\usepackage{color}
+\usepackage{framed}
+\setlength{\fboxsep}{.8em}

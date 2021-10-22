@@ -1,0 +1,119 @@
+---
+title: "Personal Cheat Sheet"
+output:
+
+# This is the header of this script. You can specify the format of the output here (e.g. PDF, html etc.) and also different styles, whether you want to include a table of contents, how that should look like... The possibilities are ENDLESS!
+
+# Example 1: A nicely formatted html-notebook  
+  rmdformats::material:
+    css: boxes.css
+
+# Example 2: A PDF document
+#  pdf_document:
+#    toc: true
+    
+# You can also include options for styling, e.g. for boxes:
+header-includes:
+    - \usepackage[most]{tcolorbox}
+    - \definecolor{light-yellow}{rgb}{1, 0.95, 0.7}
+    - \newtcolorbox{myquote}{colback=light-yellow,grow to right by=-10mm,grow to left by=-10mm, boxrule=0pt,boxsep=0pt,breakable}
+    - \newcommand{\yellowbox}[1]{\begin{myquote} \textbf{#1} \end{myquote}}
+---
+
+```{r global_options, include = FALSE}
+# Default options for this document
+knitr::opts_chunk$set(echo = T,    # include code 
+                      warning = F, # print warnings
+                      message = F, # print messages
+                      eval = F)    # evaluate code
+
+root_dir <- "C:/Users/fried/Dropbox/.Arbeit/2021-2022_HVW_Lab/NOW/SoftwareForAnalysingData_2021/Data" # put in your home directory
+
+knitr::opts_knit$set(root.dir = root_dir) 
+```
+
+# Intro
+
+This is a basis for your personal R "Cheat Sheet". In the course of the semester (and beyond that) you can add all commands and "hacks" you perceive as being beneficial for you. You can just copy-paste them from the course material. In that way you can build up your personal R repertoire. 
+(And additionally, it can serve as basis for your report)
+Cool, isn't it? :)
+
+
+# Examples for formatting 
+
+
+## Bullet points
+
+- one
+- two
+- three
+
+1. blue
+2. green
+3. yellow
+
+## Text
+
+- __bold__ 
+- *italics* 
+
+## Boxes
+
+Here is how you can include boxes. You can customize the them in the css-file "boxes.css".
+
+```{r, include = F, eval = F}
+
+```
+
+:::: {.greenbox data-latex=""}
+::: {.center data-latex=""}
+A centered line
+:::
+::: {.left data-latex=""}
+A left-aligned line
+:::
+::::
+
+Just move this code outside the chunk into the document.
+This doesn`t work for PDFs though! 
+Instead, you can use commands specified in the header (they won't be displyed in html documents though).
+
+\yellowbox{This looks like a sticky note.}
+
+## Linebreak & new page
+
+`<br>` inserts a line break: <br>  
+`\newpage` starts a new page: 
+\newpage
+
+# R Code
+
+## Chunks 
+
+This code will be displayed but not evaluated (executed)...
+
+```{r, include= TRUE, eval = FALSE}
+head(iris)
+```
+
+\... while this one will also be executed.
+
+```{r, include= TRUE, eval = TRUE}
+head(iris)
+```
+
+There are many more so-called "chunk" options (e.g. `echo`, `fig.width` etc.)
+
+## Inline-Code
+
+You can also include results from calculations directly in your text.
+
+```{r, eval = T}
+library(apa)
+tTest <- t_test(iris$Sepal.Length[iris$Species=="setosa"],
+                iris$Sepal.Length[iris$Species=="versicolor"])
+```
+
+A simple calculation: `r 30*100` <br>  
+Nicely formatted results of a t-test according to the guidelines of the American Psychological Association: `r apa(tTest)`
+
