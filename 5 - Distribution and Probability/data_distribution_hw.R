@@ -58,8 +58,10 @@ ggplot(africa, aes(x=lifeExp, fill=country, alpha=0.1)) +
   geom_density()
 
 #using mutate, check the p-value of all african country's life exp
-mutate(africa, lifeExpPValue = shapiro.test(lifeExp)$p.value) %>% arrange(desc(country))
-
+lifeExp_table_africa <- africa %>%
+                          group_by(country) %>%
+                            summarise(lifeExp.p = shapiro.test(lifeExp)$p.value) %>%
+                              arrange(desc(lifeExp.p))
 
 
 #filter only zimbabwe
@@ -69,10 +71,14 @@ ggplot(data = zimbabwe, aes(x=lifeExp, fill=country)) +
 
 #check normal distribution of zimbabwe's life exp
 shapiro.test(zimbabwe$lifeExp) #W = 0.96414, p-value = 0.8409 -> normally distributed
-mean(zimbabwe$lifeExp) #52.66317
-sd(zimbabwe$lifeExp) #7.071816
+mean_zimbabwe_lifeExp <- mean(zimbabwe$lifeExp) #52.66317
+sd_zimbabwe_lifeExp <- sd(zimbabwe$lifeExp) #7.071816
 
-
+#create a normally distributed data that represents Zimbabwe
+hist(zimbabwe$lifeExp, title(main="Original Zimbabwe lifeExp distribution"))
+my_zimbabwe_distribution = rnorm(12, mean_zimbabwe_lifeExp, sd_zimbabwe_lifeExp)
+hist(my_zimbabwe_distribution)
+shapiro.test(my_zimbabwe_distribution)
 
 
 
@@ -103,4 +109,5 @@ ggplot(data = gapminder, aes(x=gdpPercap)) +
 ggplot(data = gapminder, aes(x=gdpPercap, fill=continent, alpha= 0.3)) +
   geom_density()
 
+plot(gapminder)
 
