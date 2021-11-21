@@ -1,17 +1,36 @@
 library(tidyverse)
 
+# ----------------------------------------------------------------------------
 OrchardSprays
 ?OrchardSprays
+str(OrchardSprays)
+summary(OrchardSprays)
+head(OrchardSprays)
+
+#check for unique factors
+unique(OrchardSprays$treatment)
+unique(OrchardSprays$decrease)
 
 theme_set(theme_bw())
 ggplot(OrchardSprays, aes(x=treatment, y=decrease, fill=treatment)) +
-  labs(title = "How Lime Sulphur Treatment Decreases Insect",
+  labs(title = "How Lime Sulphur Treatment Decreases Honeybees Apetite",
        x = "Type of Treatment (A highest, H no Lime Sulphur)",
-       y = "# Deceased Bees from 100") +
+       y = "The decrease of Lime Sulphure solution") +
   stat_boxplot(size=1, geom="errorbar") + 
   geom_boxplot(size=1)
 
+#the more lime sulphure is in the solution, the less the bees like it. 
+#hence it repels honeybees
+
+#check for anova test
+anova <- aov(decrease ~ treatment, data = OrchardSprays)
+summary(anova)
+TukeyHSD(anova)
+
+
+# ----------------------------------------------------------------------------
 #lecture example toothGrowth
+
 ?ToothGrowth
 boxplot(len ~ dose, data = ToothGrowth,
         boxwex = 0.25, 
@@ -46,7 +65,9 @@ ggplot(ToothGrowth, aes(x=dose, y=len, fill=supp, shape=as.factor(dose))) +
 model12<-aov(len ~ dose, data = ToothGrowth)
 summary(model12) 
 
+# ----------------------------------------------------------------------------
 #Lecture Example 2: Insect Sprays
+
 #To find out, what the InsectSprays data set is about: 
 ?InsectSprays
 data(InsectSprays)
