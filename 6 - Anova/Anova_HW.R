@@ -27,6 +27,104 @@ anova <- aov(decrease ~ treatment, data = OrchardSprays)
 summary(anova)
 TukeyHSD(anova)
 
+# Evgeniya's code --------------------------------------------------------
+
+# I browsed through the available datasets and decided that this one is okay for One-Way ANOVA.
+# It has one factor with 8 levels:
+# from A to H, where A is the highest level of lime sulphur, G - lowest level and H - no sulphur (control).
+
+
+# I am going to analyse the effect of the amount of sulphur on the Response ('decrease' column).
+# First I visualized the data with boxplot
+
+boxplot(decrease ~ treatment, data = OrchardSprays)
+
+# Then performed the ANOVA
+
+one.way <- aov(decrease ~ treatment, data = OrchardSprays)
+summary(one.way)
+
+# So, since it can be clearly seen from the boxplot and then confirmed by the ANOVA (very small p-value)
+# I can reject the H0 hypothesis. 
+# And so it is likely that the amount of sulphur have a significant effect on average decrease.
+
+# To find how the treatment levels differ from one another, 
+# I performed a Tukey???s Honestly-Significant Difference test.
+
+TukeyHSD(one.way)
+
+# So from this test it can be seen that the difference is insignificant between groups, that are close to each other.
+# However, the further the groups from each other, the more significant the difference becomes.
+
+
+# Corlie's code --------------------------------------------------------
+if (!require('MASS')) install.packages('MASS'); library('MASS')
+
+
+?cabbages
+id<-cabbages
+head(id)
+str(id)
+view(cabbages)
+
+unique(cabbages$VitC) #its continuous
+
+#checking sample sizes -> balanced dataset
+id%>%group_by(Date)%>%tally()
+id%>%group_by(Cult)%>%tally()
+
+#plotting
+plot(as.factor(id$Date),id$HeadWt)
+plot(as.factor(id$Cult),id$HeadWt)
+#boxplot(id$HeadWt~id$Date)
+#all overlapping, may show no difference
+
+### Perform one way ANOVA
+##test for normality
+shapiro.test(id$HeadWt) #p-value = 0.0314 -> not normally distributed
+
+# Preliminary: Fligner-Killeen Test of Homogeneity of variance (non-parametric) 
+fligner.test(id$HeadWt ~ id$Date)
+fligner.test(id$HeadWt ~ id$Cult)
+#the variances are equal.
+
+# Perform one-way ANOVA on Date
+model<-aov(id$HeadWt ~ id$Date)
+
+# Model summary
+summary(model)
+#significant effect on headweight
+
+# Perform one-way ANOVA on Cult
+modelC<-aov(id$HeadWt ~ id$Cult)
+
+# Model summary
+summary(modelC)
+#significant effect on headweight
+
+#Two way ANOVA
+
+# Alternative: Boxplots
+boxplot(id$HeadWt ~ id$Date * id$Cult, boxwex = 0.3, cex.axis = 0.8, las = 2)
+
+### Build model
+
+# Without interactions between Cult and Date
+model3 <- aov(id$HeadWt~ id$Date + id$Cult)
+summary(model3)
+summary(lm(model3)) #p-value: 0.0001847
+
+#  With interactions between Cult and Date
+model4<-aov(id$HeadWt~ id$Date * id$Cult)
+summary(model4)
+summary.lm(model4) #p-value: 4.287e-06
+
+#Post-hoc test
+TukeyHSD(model4)
+?TukeyHSD
+##would be best to use Cult52 and Date 20 as together they show a positive effect on headweight
+#relationship between date and headweight depends on the cult
+
 
 # ----------------------------------------------------------------------------
 #lecture example toothGrowth
