@@ -94,8 +94,7 @@ gap1 +
   labs(y="life expectancy", x="continent") +
   guides(fill="none")
 
-
-#------------------- effect ordering
+# with ordering
 
 gapminder %>% mutate(continent = reorder(continent, lifeExp, FUN=median) ) %>%
   ggplot(aes(x=continent, y=lifeExp, fill=continent)) +
