@@ -28,3 +28,29 @@ boxplot(frequency ~ attitude*gender,
         col = c ("white", "lightgray"),
         politeness )
 
+#modeling
+lmer (frequency ~ attitude, data = politeness) # error: no random variable
+
+politeness_model = lmer (frequency ~ attitude + (1|subject) + (1|scenario), data = politeness)
+summary(politeness_model) 
+
+# because the intercept is just the avg between male and female, we include it in
+# our random variable
+
+politeness_model_s = lmer (frequency ~ attitude + gender + (1|subject) + (1|scenario) 
+                           , data = politeness)
+summary(politeness_model_s) 
+
+# the variance of random effect > subject now is very low thats good
+# the intercept is now representing the female informal
+
+# compare significance
+politeness_null = lmer (frequency ~ 
+                          gender + (1|subject) + (1|scenario) 
+                        , data = politeness, REML = FALSE)
+
+politeness_full = lmer (frequency ~ 
+                          attitude + gender + (1|subject) + (1|scenario) 
+                        , data = politeness, REML = FALSE)
+#compare using anova
+anova (politeness_null, politeness_full)
