@@ -155,10 +155,18 @@ unique(ToothGrowth$dose) # they only have does of 0.5, 1.0, and 2.0
 #using ggplot
 ggplot(ToothGrowth, aes(x=dose, y=len, fill=supp, shape=as.factor(dose))) + 
   labs(title = "Tooth growth based on different dose of stuff", 
-       x = "dose" , 
+       x = "dose of vit C in mg" , 
        y = "tooth length") + 
-  stat_boxplot(size = 1, geom='errorbar') + #adding whisker
-  geom_boxplot( size = 1) 
+  stat_boxplot(size = 0.1, geom='errorbar') + #adding whisker
+  geom_boxplot( size = 0.1) 
+
+ggplot(ToothGrowth, aes(x=dose, y=len, fill=supp, shape=as.factor(dose))) + 
+  labs(title = "Tooth growth based on different dose of stuff", 
+       x = "dose of vit C in mg" , 
+       y = "tooth length") + 
+  stat_boxplot(size = 0.5, geom='errorbar') + #adding whisker
+  geom_boxplot( size = 0.5) +
+  geom_label(aes(label=supp))
 
 model12<-aov(len ~ dose, data = ToothGrowth)
 summary(model12) 

@@ -85,6 +85,7 @@ shapiro.test(my_zimbabwe_distribution)
 # ---------------- Boxplot
 gap1 <- ggplot(gapminder, aes(x=gapminder$continent, y=gapminder$lifeExp, fill=gapminder$continent))
 gap1 + 
+  stat_boxplot(geom = "errorbar")+
   geom_boxplot(outlier.size = 3) +
   labs(y="life expectancy", x="continent") +
   guides(fill="none")

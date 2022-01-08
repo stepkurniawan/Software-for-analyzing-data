@@ -74,3 +74,49 @@ ggplot(data = swiss, aes (x = edu , y = exam, size = swiss$Catholic) ) +
 
 #principle component analysis 
 biplot(prcomp(swiss)) 
+
+
+
+# TUTORIAL ------------------------------------------------------------------
+root_dir <- "C:\\Users\\steph\\OneDrive - Leuphana Universität\\Semester 1\\2. SfAD - Software for analyzing data\\Tutorial 1\\Data"
+setwd(root_dir)
+auto <- read.csv("Automobile.csv")
+weight <- read.csv("Birthweight.csv") # dataset
+
+weight$Birthweight_g <- (weight$Birthweight * 453.59237) # gram
+
+library("corrplot")  # for command "corrplot()"
+library("car")       # for command "qqPlot()"
+
+plot(weight)
+
+#execise 
+# check assumption 
+plot(auto)
+horsepower <- auto$horsepower
+engine_size <- auto$engine.size
+city_mpg <- auto$city.mpg
+
+boxplot(horsepower , engine_size, city_mpg, names = c("horsepower", "engine size", "city mpg"))
+plot(engine_size, horsepower)
+
+
+shapiro.test(horsepower) #p-value = 2.324e-11
+shapiro.test(engine_size) #p-value = 3.057e-14
+
+ggplot(data = auto, aes(x = engine_size, y = horsepower, size = auto$city.mpg )) + 
+  geom_point() + 
+  geom_smooth( method = "lm", se= F)
+
+#correlation 
+cor.test(engine_size, horsepower) #p-value < 2.2e-16
+
+line_model <- lm(horsepower ~ engine_size)
+summary(line_model)
+
+line_model$coefficients[[1]] # intercept
+line_model$coefficients[[2]] # slope
+
+
+
+                        

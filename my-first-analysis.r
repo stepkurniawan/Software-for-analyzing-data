@@ -1,1 +1,2 @@
-tibble(discoveries)
+sort(discoveries)
+sort(discoveries, decreasing = T)
